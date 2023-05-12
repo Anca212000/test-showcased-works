@@ -1,0 +1,53 @@
+<header>
+    <div class="bubble1"></div>
+    <div class="bubble2"></div>
+    <div class="bubble3"></div>
+    <div class="bubble4"></div>
+    <div class="bubble5"></div>
+    <h1>showcased works</h1>
+</header>
+<div class="content">
+<h2>Create new project</h2>
+<form (submit)="checkTypeForm()">
+    <fieldset>
+        <label for="title">Title of the work:</label>
+        <input type="text" id="title" name="title" placeholder="Type here ..." [(ngModel)]="inputTitle">
+        
+        <label for="description">Write the content of your work (the description of the article/story):</label>
+        <textarea id="description" name="description" placeholder="Write the content here ..." [(ngModel)]="inputDetails"></textarea>
+
+        <label class="label-radio">Choose if you want to show or hide the project from being displayed in the portfolio's list:</label>
+        <div>
+        <input type="radio" id="project_show" value="show" name="project_display" [(ngModel)]="inputDisplayed"><label for="project_show" class="light"><fa-icon [icon]="faEye" style="font-size:1.8rem"></fa-icon> Show my work</label>
+        </div>
+        <input type="radio" id="project_hide" value="hide" name="project_display" [(ngModel)]="inputDisplayed"><label for="project_hide" class="light" style="border-radius: 0 0 20px 20px;"><fa-icon [icon]="faEyeSlash" style="font-size:1.8rem"></fa-icon>Hide my work</label>
+    </fieldset>
+
+    <div id="image-filename"></div>
+    <input [accept]="'.png,.jpg,.jpeg'" type="file" id="uploadBtn" (change) = "onFileSelected($event)">
+    <label for="uploadBtn" id="label-image"><fa-icon [icon]="faUpload"></fa-icon><br>Add image</label><br>
+
+    <button type="submit">Save</button>
+</form>
+<div style="margin:0 auto;width:150px">
+    <button (click)="resetFields()" class="reset-button">Reset</button>
+</div>
+
+<h2>My projects</h2>
+<div class="portfolio" id="list-portfolio">
+    <div *ngFor="let work of works?.reverse(); let i = index;" class="project {{ work.displayed === false ? 'hide' : '' }}">
+        <a href="/view/{{work.id}}">
+            <div class="content-project" style="background-image: url('assets/images/{{work.fileName ? work.fileName : defaultImg}}');">
+                <h4>{{ work.title }}</h4>
+            </div>
+        </a>
+        <div class="action-buttons {{ work.displayed === false ? 'hide' : '' }}">
+            <button class="edit" (click)="scrollToEditForm(work.id)"><fa-icon [icon]="faEdit"></fa-icon></button>
+            <button class="delete" (click)="deleteWork(i)"><fa-icon [icon]="faTrash"></fa-icon></button>
+        </div>
+        <div class="button-show {{ work.displayed === false ? 'show-butt' : '' }}">
+            <button class="show"><fa-icon [icon]="faEye"></fa-icon> Make visible</button>
+        </div>
+    </div>
+</div>
+</div>
